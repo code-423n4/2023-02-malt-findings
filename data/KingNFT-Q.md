@@ -1,12 +1,10 @@
 ## Summary
-### Low Risk Issues
+### Low Risk Issues List
 | Number |Issue Title|Instances|
 |:--:|:-------|:--:|
-|[L-01]| The ````_removeContract()```` function is not properly implemented  | 1 |
-|[L-02]| The ````_updateContract()```` function is not properly implemented | 1 |
-
-
-Total 2 issues
+|[L-01]| [The ````_removeContract()```` function is not properly implemented](#l-01-the-_removecontract-function-is-not-properly-implemented)  | 1 |
+|[L-02]| [The ````_updateContract()```` function is not properly implemented](#l-02-the-_updatecontract-function-is-not-properly-implemented) | 1 |
+|[L-03]| [The ````updater```` address of ````pool```` may not be updatable](#l-03-the-updater-address-of-pool-may-not-be-updatable) | 1 |
 
 ## Low Risk Issues
 ### [L-01] The ````_removeContract()```` function is not properly implemented
@@ -97,4 +95,91 @@ File: contracts\Repository.sol
 240:     currentContract.contractAddress = _newContract;
 241:     emit UpdateContract(hashedName, _newContract);
 242:   }
+```
+
+
+
+### [L-03] The ````updater```` address of ````pool```` may not be updatable
+#### Impact
+As the ````updater```` role is a key role in the protocol, many core contracts requiring the data will not work properly.
+```solidity
+File: contracts\StabilizedPool\StabilizedPool.sol
+40: struct StabilizedPool {
+...
+47:   address updater;
+...
+49: }
+
+```
+
+#### Proof of Concept
+As shown of L154\~L174 of ````initializeStabilizedPool()````,  there is no check if ````updater != address(0)````.
+```solidity
+File: contracts\StabilizedPool\StabilizedPoolFactory.sol
+154:   function initializeStabilizedPool(
+155:     address pool,
+156:     string memory name,
+157:     address collateralToken,
+158:     address updater
+159:   ) external onlyRoleMalt(ADMIN_ROLE, "Must have admin role") {
+160:     require(pool != address(0), "addr(0)");
+161:     require(collateralToken != address(0), "addr(0)");
+162:     StabilizedPool storage currentPool = stabilizedPools[pool];
+163:     require(currentPool.collateralToken == address(0), "already initialized");
+164: 
+165:     currentPool.collateralToken = collateralToken;
+166:     currentPool.name = name;
+167:     currentPool.updater = updater;
+168:     currentPool.pool = pool;
+169:     _setupRole(POOL_UPDATER_ROLE, updater);
+170: 
+171:     pools.push(pool);
+172: 
+173:     emit NewStabilizedPool(pool);
+174:   }
+```
+So the ````updater```` address can be initialized with 0, later admins update it  by calling ````setCurrentPool()````.
+However, when we take a closer look at ````setCurrentPool()````, the update can't be done due to the limit on L89.
+```solidity
+File: contracts\StabilizedPool\StabilizedPoolFactory.sol
+079:   function setCurrentPool(address pool, StabilizedPool memory currentPool)
+080:     external
+081:     onlyRoleMalt(POOL_UPDATER_ROLE, "Must have pool updater role")
+082:   {
+...
+087:     if (
+088:       currentPool.updater != address(0) &&
+089:       existingPool.updater != address(0) && // @audit can't be updated if existingPool.updater == 0
+090:       currentPool.updater != existingPool.updater
+091:     ) {
+092:       _transferRole(
+093:         currentPool.updater,
+094:         existingPool.updater,
+095:         POOL_UPDATER_ROLE
+096:       );
+097:       existingPool.updater = currentPool.updater;
+098:     }
+...
+152:   }
+
+```
+
+#### Recommended Mitigation Steps
+```diff
+File: contracts\StabilizedPool\StabilizedPoolFactory.sol
+154:   function initializeStabilizedPool(
+155:     address pool,
+156:     string memory name,
+157:     address collateralToken,
+158:     address updater
+159:   ) external onlyRoleMalt(ADMIN_ROLE, "Must have admin role") {
+160:     require(pool != address(0), "addr(0)");
+161:     require(collateralToken != address(0), "addr(0)");
+162:     StabilizedPool storage currentPool = stabilizedPools[pool];
+163:     require(currentPool.collateralToken == address(0), "already initialized");
++        require(updater != address(0), "addr(0)");
+164: 
+...
+174:   }
+
 ```
