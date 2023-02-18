@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "cccz",
+  "risk": "2",
+  "title": "LinearDistributor.declareReward: previouslyVested may update incorrectly, which will cause some rewards to be lost",
+  "issueId": 6,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/6"
+}
