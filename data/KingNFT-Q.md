@@ -5,6 +5,7 @@
 |[L-01]| [The ````_removeContract()```` function is not properly implemented](#l-01-the-_removecontract-function-is-not-properly-implemented)  | 1 |
 |[L-02]| [The ````_updateContract()```` function is not properly implemented](#l-02-the-_updatecontract-function-is-not-properly-implemented) | 1 |
 |[L-03]| [The ````updater```` address of ````pool```` may not be updatable](#l-03-the-updater-address-of-pool-may-not-be-updatable) | 1 |
+|[L-04]| [The ````ABDKMath64x64```` lib doesn't support tokens with more than 18 decimals](#l-04-the-abdkmath64x64-lib-doesnt-support-tokens-with-more-than-18-decimals) | 1 |
 
 ## Low Risk Issues
 ### [L-01] The ````_removeContract()```` function is not properly implemented
@@ -183,3 +184,68 @@ File: contracts\StabilizedPool\StabilizedPoolFactory.sol
 174:   }
 
 ```
+
+### [L-04] The ````ABDKMath64x64```` lib doesn't support tokens with more than 18 decimals
+#### Impact
+The following functions of ````MaltDataLab```` contract will always revert if ````collateralToken````'s decimals is more than 18.
+```solidity
+  function getRealBurnBudget(uint256 maxBurnSpend, uint256 premiumExcess);
+  function getSwingTraderEntryPrice();
+  function getActualPriceTarget();
+```
+As these functions play core roles in the system, so tokens with more than 18 decimals, as an example YAMv2 has 24 decimals, will not work.
+#### Proof of Concept
+As shown on L63 of ````ABDKMath64x64.sol````, the ````fromUInt()```` function requires the ````x```` parameter less than ````0x7FFFFFFFFFFFFFFF```` which is about ````9e18````.
+```solidity
+File: contracts\libraries\ABDKMath64x64.sol
+61:   function fromUInt(uint256 x) internal pure returns (int128) {
+62:     unchecked {
+63:       require(x <= 0x7FFFFFFFFFFFFFFF); // @audit 0x7FFFFFFFFFFFFFFF = 9,223,372,036,854,775,807
+64:       return int128(int256(x << 64));
+65:     }
+66:   }
+```
+So, if ````collateralToken````'s decimals ````> 18````, then the following lines of ````MaltDataLab```` contract will revert, L240 of ````getRealBurnBudget()```` function
+```solidity
+File: contracts\DataFeed\MaltDataLab.sol
+230:   function getRealBurnBudget(uint256 maxBurnSpend, uint256 premiumExcess)
+...
+234:   {
+...
+237: 
+238:       int128 stMaltRatioInt = ABDKMath64x64
+239:         .fromUInt(swingTraderManager.calculateSwingTraderMaltRatio())
+240:         .div(ABDKMath64x64.fromUInt(10**collateralToken.decimals())) // @audit revert
+241:         .mul(ABDKMath64x64.fromUInt(100));
+...
+258:   }
+
+```
+L389 of ````getSwingTraderEntryPrice()```` function
+```solidity
+ File: contracts\DataFeed\MaltDataLab.sol
+350:   function getSwingTraderEntryPrice()
+...
+354:   {
+...
+370:     uint256 unity = 10**collateralToken.decimals();
+...
+389:     int128 unityInt = ABDKMath64x64.fromUInt(unity); // @audit revert
+...
+429:   }
+
+```
+L442 of ````getActualPriceTarget()```` function
+```solidity
+File: contracts\DataFeed\MaltDataLab.sol
+431:   function getActualPriceTarget() external view returns (uint256) {
+432:     uint256 unity = 10**collateralToken.decimals();
+...
+442:     int128 unityInt = ABDKMath64x64.fromUInt(unity);
+...
+482:   }
+
+```
+
+#### Recommended Mitigation Steps
+Using more precise math such as https://github.com/NovakDistributed/macroverse/blob/master/contracts/RealMath.sol
