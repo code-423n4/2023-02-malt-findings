@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "cccz",
+  "risk": "3",
+  "title": "SwingTraderManager.addSwingTrader will push traderId with active = false to activeTraders",
+  "issueId": 12,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/12"
+}
