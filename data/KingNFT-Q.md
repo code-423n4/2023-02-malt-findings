@@ -248,4 +248,4 @@ File: contracts\DataFeed\MaltDataLab.sol
 ```
 
 #### Recommended Mitigation Steps
-Using more precise math such as https://github.com/NovakDistributed/macroverse/blob/master/contracts/RealMath.sol
+Using more precise math such as ````128x128````.
