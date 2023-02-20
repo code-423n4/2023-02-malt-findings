@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "cccz",
+  "risk": "2",
+  "title": "RewardThrottle.setTimekeeper: If changing the timekeeper causes the epoch to change, it will mess up the system",
+  "issueId": 21,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/21"
+}
