@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "hansfriese",
+  "risk": "2",
+  "title": "The latest malt price can be less than the actual price target and `StabilizerNode.stabilize` will revert",
+  "issueId": 36,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/36"
+}
