@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "hansfriese",
+  "risk": "2",
+  "title": "Average `APR`s might be calculated wrongly after calling `populateFromPreviousThrottle()`.",
+  "issueId": 30,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/30"
+}
