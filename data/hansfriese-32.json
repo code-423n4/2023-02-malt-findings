@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "hansfriese",
+  "risk": "2",
+  "title": "`StabilizerNode.stabilize()` should update `lastTracking` as well to avoid an unnecessary incentive.",
+  "issueId": 32,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/32"
+}
