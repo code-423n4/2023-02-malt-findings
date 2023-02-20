@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "hansfriese",
+  "risk": "2",
+  "title": "`SwingTraderManager.sellMalt()` doesn't update `totalProfit` for some cases.",
+  "issueId": 33,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/33"
+}
