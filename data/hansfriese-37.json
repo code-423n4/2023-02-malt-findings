@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "hansfriese",
+  "risk": "2",
+  "title": "`averageCashflowAPR` should return 0 when `startEpoch` = `endEpoch`",
+  "issueId": 37,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/37"
+}
