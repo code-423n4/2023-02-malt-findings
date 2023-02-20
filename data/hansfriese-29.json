@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "hansfriese",
+  "risk": "2",
+  "title": "`RewardThrottle._sendToDistributor()` reverts if one distributor is inactive.",
+  "issueId": 29,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/29"
+}
