@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "cccz",
+  "risk": "3",
+  "title": "RewardThrottle: If an epoch does not have any profit, then there may or may not be rewards for that epoch at the start of the next epoch.",
+  "issueId": 20,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/20"
+}
