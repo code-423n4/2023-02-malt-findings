@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "minhquanym",
+  "risk": "2",
+  "title": "Value of `totalProfit` might be wrong because of wrong logic in function `sellMalt()`",
+  "issueId": 16,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/16"
+}
