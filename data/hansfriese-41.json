@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "hansfriese",
+  "risk": "2",
+  "title": "Cap is not applied when `runwayDeficit` = 0 in `RewardThrottle.updateDesiredAPR`",
+  "issueId": 41,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/41"
+}
