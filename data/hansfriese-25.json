@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "hansfriese",
+  "risk": "2",
+  "title": "`Repository._removeContract()` removes the contract wrongly.",
+  "issueId": 25,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/25"
+}
