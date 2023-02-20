@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "hansfriese",
+  "risk": "3",
+  "title": "`RewardThrottle.checkRewardUnderflow()` might track the cumulative `APR`s wrongly.",
+  "issueId": 23,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/23"
+}
