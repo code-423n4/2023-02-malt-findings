@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "hansfriese",
+  "risk": "2",
+  "title": "`GlobalImpliedCollateralService.setPoolUpdater()` works wrongly when `_updater == oldUpdater`.",
+  "issueId": 24,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/24"
+}
