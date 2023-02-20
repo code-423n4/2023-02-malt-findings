@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "hansfriese",
+  "risk": "2",
+  "title": "`MaltDataLab.getActualPriceTarget()` reverts when `breakpointBps = 10000`.",
+  "issueId": 27,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/27"
+}
