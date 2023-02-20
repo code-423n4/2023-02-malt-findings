@@ -1,0 +1,8 @@
+{
+  "contest": 213,
+  "handle": "minhquanym",
+  "risk": "2",
+  "title": "Function `stabilize()` might always revert because of overflow since Malt contract use solidity 0.8",
+  "issueId": 15,
+  "issueUrl": "https://github.com/code-423n4/2023-02-malt-findings/issues/15"
+}
